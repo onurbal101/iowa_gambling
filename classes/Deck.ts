@@ -26,7 +26,7 @@ class Deck {
         this._cards = cards;
     }
 
-    public isEmpty(): boolean {
+    public get isEmpty(): boolean {
         return this.cards.length === 0;
     }
 
