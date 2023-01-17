@@ -3,6 +3,7 @@ import type Education from "../enums/Education";
 import Choices from "./Choices";
 import Deck from "./Deck";
 import Card from "./Card";
+import Result from "./Result";
 
 class Player {
     private _name: string | undefined;
@@ -11,8 +12,9 @@ class Player {
     private _education: Education | undefined;
     private _choices: Choices = new Choices();
     private _balance: number = 2000;
+    private _result: Result = new Result(this.choices);
 
-    constructor(name?: string | undefined, birthdate?: Date | undefined, sex?: Sex | undefined, education?: Education | undefined, choices: Choices = new Choices(), balance: number = 2000) {
+    constructor(name?: string, birthdate?: Date, sex?: Sex, education?: Education, choices: Choices = new Choices(), balance: number = 2000) {
         this.name = name;
         this.birthdate = birthdate;
         this.sex = sex;
@@ -54,6 +56,7 @@ class Player {
     }
     public set choices(choices: Choices) {
         this._choices = choices;
+        this._result = new Result(this.choices);
     }
 
     public get balance(): number {
@@ -61,6 +64,13 @@ class Player {
     }
     public set balance(balance: number) {
         this._balance = balance;
+    }
+
+    public get result(): Result {
+        return this._result;
+    }
+    public set result(result: Result) {
+        this._result = result;
     }
 
     public choose(deck: Deck) {

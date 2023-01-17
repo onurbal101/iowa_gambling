@@ -1,9 +1,9 @@
 import type CardCategory from "../enums/CardCategory";
 
 class Card {
-    private _category: CardCategory;
-    private _profit: number;
-    private _loss: number;
+    private _category!: CardCategory;
+    private _profit!: number;
+    private _loss!: number;
 
     constructor(category: CardCategory, profit: number, loss: number) {
         this.category = category;

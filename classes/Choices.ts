@@ -1,7 +1,8 @@
 import CalculationOperation from "../enums/CalculationOperation";
 import CalculationField from "../enums/CalculationField";
 import CardCategory from "../enums/CardCategory";
-import type Card from "./Card";
+import Card from "./Card";
+import Result from "./Result";
 
 class Choices {
     private _cards: Card[] = [] as Card[];
@@ -21,12 +22,16 @@ class Choices {
         this.cards.push(card);
     }
 
-    private calculate(calculationOperation: CalculationOperation, calculationField: CalculationField | null = null, cardCategory: CardCategory | null = null, start: number = 0, end: number = this.cards.length) {
+    private calculate(calculationOperation: CalculationOperation, calculationField: CalculationField | null = null, cardCategory: CardCategory | CardCategory[] | null = null, start: number = 0, end: number = this.cards.length) {
         let cardsCopy = this.cards.slice(start, end);
         let result: number;
 
         if (cardCategory !== null) {
-            cardsCopy = cardsCopy.filter((card) => card.category === cardCategory);
+            if (!Array.isArray(cardCategory)) {
+                cardsCopy = cardsCopy.filter((card) => card.category === cardCategory);
+            } else {
+                cardsCopy = cardsCopy.filter((card) => cardCategory!.includes(card.category));
+            }
         }
 
         if (calculationField !== null) {
@@ -61,20 +66,25 @@ class Choices {
         return result!;
     }
 
-    public count(cardCategory: CardCategory | null = null, start: number = 0, end: number = this.cards.length) {
+    public count(cardCategory: CardCategory | CardCategory[] | null = null, start: number = 0, end: number = this.cards.length) {
         return this.calculate(CalculationOperation.COUNT, null, cardCategory, start, end);
     }
 
-    public countQuantile(quantile: number = 0.2, cardCategory: CardCategory | null = null) {
-        const range = quantile * 100;
-        const quantiles = {};
-        for (let i = 0; i < 1; i += quantile) {
-            const start: number = i * 100;
-            const end: number = start + range
-            quantiles[String(i)] = this.count(cardCategory, start, end);
+    public countQuantile(quantile: number = 0.2, cardCategory: CardCategory | CardCategory[]) {
+        const max: number = this.cards.length;
+        const step = quantile * max;
+        const quantiles: {[key: string]: {"count": number, "quantilePercentage": number, "categoryPercentage": number}} = {};
+        for (let start = 0; start < max; start += step) {
+            const end: number = start + step;
+            const count: number = this.count(cardCategory, start, end)
+            const categoryTotal: number = this.count(cardCategory, 0, max);
+            const quantileTotal: number = this.count(null, start, end);
+            const categoryPercentage: number = count / categoryTotal;
+            const quantilePercentage: number = count / quantileTotal;
+            quantiles[String(end / this.cards.length)] = {count, "quantilePercentage": quantilePercentage, "categoryPercentage": categoryPercentage};
         }
         
-        return quantile;
+        return quantiles;
 
         }
 
@@ -91,6 +101,21 @@ class Choices {
     }
 }
 
+const a = new Choices();
+for (let i = 0; i < 5; i++) {
+    a.addCard(new Card(CardCategory.A, 100, 25))
+}
+for (let i = 0; i < 5; i++) {
+    a.addCard(new Card(CardCategory.B, 100, 25))
+}
+for (let i = 0; i < 5; i++) {
+    a.addCard(new Card(CardCategory.C, 100, 25))
+}
+for (let i = 0; i < 5; i++) {
+    a.addCard(new Card(CardCategory.D, 100, 25))
+}
 
+const b = new Result(a);
+console.log(b.scores);
 
 export default Choices;
