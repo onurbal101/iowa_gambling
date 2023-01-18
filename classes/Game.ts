@@ -6,9 +6,9 @@ import Result from "./Result";
 class Game {
     private _player: Player = new Player();
     private _deckA: Deck = Deck.readCsv("a", CardCategory.A);
-    private _deckB: Deck = Deck.readCsv("a", CardCategory.A);
-    private _deckC: Deck = Deck.readCsv("a", CardCategory.A);
-    private _deckD: Deck = Deck.readCsv("a", CardCategory.A);
+    private _deckB: Deck = Deck.readCsv("a", CardCategory.B);
+    private _deckC: Deck = Deck.readCsv("a", CardCategory.C);
+    private _deckD: Deck = Deck.readCsv("a", CardCategory.D);
 
     // constructor(player?: Player, deckA?: Deck, deckB?: Deck, deckC?: Deck, deckD?: Deck) {
     //     this.player = player;

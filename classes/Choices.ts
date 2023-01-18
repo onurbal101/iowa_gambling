@@ -73,15 +73,15 @@ class Choices {
     public countQuantile(quantile: number = 0.2, cardCategory: CardCategory | CardCategory[]) {
         const max: number = this.cards.length;
         const step = quantile * max;
-        const quantiles: {[key: string]: {"count": number, "quantilePercentage": number, "categoryPercentage": number}} = {};
+        const quantiles: {[key: string]: {"count": number, "maxCount": number, "quantilePercentage": number, "categoryPercentage": number}} = {};
         for (let start = 0; start < max; start += step) {
             const end: number = start + step;
             const count: number = this.count(cardCategory, start, end)
-            const categoryTotal: number = this.count(cardCategory, 0, max);
+            const categoryTotal: number = this.count(cardCategory);
             const quantileTotal: number = this.count(null, start, end);
             const categoryPercentage: number = count / categoryTotal;
             const quantilePercentage: number = count / quantileTotal;
-            quantiles[String(end / this.cards.length)] = {count, "quantilePercentage": quantilePercentage, "categoryPercentage": categoryPercentage};
+            quantiles[String(end / this.cards.length)] = {count, "maxCount": quantileTotal, quantilePercentage, categoryPercentage};
         }
         
         return quantiles;

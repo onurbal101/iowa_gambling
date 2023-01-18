@@ -1,6 +1,6 @@
 import CardCategory from "../enums/CardCategory";
 import type Card from "./Card";
-// import * as fs from "fs";
+import * as fs from "fs";
 // import * as path from "path";
 
 class Deck {
