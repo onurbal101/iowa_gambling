@@ -5,10 +5,10 @@ import Result from "./Result";
 
 class Game {
     private _player: Player = new Player();
-    private _deckA: Deck = Deck.readCsv("a", CardCategory.A);
-    private _deckB: Deck = Deck.readCsv("a", CardCategory.B);
-    private _deckC: Deck = Deck.readCsv("a", CardCategory.C);
-    private _deckD: Deck = Deck.readCsv("a", CardCategory.D);
+    private _deckA: Deck = Deck.readCsv("../decks/deck_a.csv", CardCategory.A);
+    private _deckB: Deck = Deck.readCsv("../decks/deck_b.csv", CardCategory.B);
+    private _deckC: Deck = Deck.readCsv("../decks/deck_c.csv", CardCategory.C);
+    private _deckD: Deck = Deck.readCsv("../decks/deck_d.csv", CardCategory.D);
 
     // constructor(player?: Player, deckA?: Deck, deckB?: Deck, deckC?: Deck, deckD?: Deck) {
     //     this.player = player;

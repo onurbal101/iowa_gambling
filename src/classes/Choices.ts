@@ -36,7 +36,7 @@ class Choices {
 
         if (calculationField !== null) {
             if (calculationField === CalculationField.PNL) {
-                cardsCopy = cardsCopy.filter((card) => card.profit !== 0 && card.loss !== 0);
+                cardsCopy = cardsCopy.filter((card) => card.profit !== 0 || card.loss !== 0);
             }
             if (calculationField === CalculationField.PROFIT) {
                 cardsCopy = cardsCopy.filter((card) => card.profit !== 0);
@@ -100,22 +100,5 @@ class Choices {
         return this.calculate(CalculationOperation.SUM, CalculationField.PNL, cardCategory, start, end);
     }
 }
-
-const a = new Choices();
-for (let i = 0; i < 5; i++) {
-    a.addCard(new Card(CardCategory.A, 100, 25))
-}
-for (let i = 0; i < 5; i++) {
-    a.addCard(new Card(CardCategory.B, 100, 25))
-}
-for (let i = 0; i < 5; i++) {
-    a.addCard(new Card(CardCategory.C, 100, 25))
-}
-for (let i = 0; i < 5; i++) {
-    a.addCard(new Card(CardCategory.D, 100, 25))
-}
-
-const b = new Result(a);
-console.log(b.scores);
 
 export default Choices;

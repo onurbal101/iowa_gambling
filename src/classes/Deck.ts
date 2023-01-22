@@ -1,11 +1,11 @@
 import CardCategory from "../enums/CardCategory";
-import type Card from "./Card";
+import Card from "./Card";
 import * as fs from "fs";
-// import * as path from "path";
+import * as path from "path";
 
 class Deck {
-    private _name: string;
-    private _cards: Card[];
+    private _name!: string;
+    private _cards!: Card[];
 
     constructor(name: string, cards: Card[]) {
         this.name = name;
@@ -35,9 +35,15 @@ class Deck {
     }
 
     public static readCsv(filePath: string, cardCategory: CardCategory): Deck {
-
-
-        return new Deck("A", []);
+        const absolutePath = path.resolve(__dirname, filePath);
+        const data = fs.readFileSync(absolutePath, {encoding: "utf8", flag: "r"});
+        const cards: Card[] = [];
+        for (const line of data.split("\n").slice(1)) {
+            const [profit, loss] = line.split(",");
+            const card = new Card(cardCategory, parseInt(profit), parseInt(loss));
+            cards.push(card);
+        }
+        return new Deck(cardCategory, cards);
     }
 }
 

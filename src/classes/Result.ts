@@ -69,7 +69,7 @@ class Result {
                     delete score[key][property];
                 }
             }
-            const normalisedCount = ((score[key]["count"] - score[key]["range"][0]) / (score[key]["range"][1] - score[key]["range"][0])) * 100;
+            const normalisedCount = ((((score[key]["count"] - score[key]["range"][0]) / (score[key]["range"][1] - score[key]["range"][0])) * 100) - 50) * 2;
             score[key]["normalisedCount"] = normalisedCount;
         }
 

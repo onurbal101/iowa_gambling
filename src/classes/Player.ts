@@ -73,12 +73,15 @@ class Player {
         this._result = result;
     }
 
-    public choose(deck: Deck) {
+    public choose(deck: Deck): Card | undefined {
         let drawnCard: Card | undefined = deck.draw();
 
         if (drawnCard !== undefined) {
             this.choices.addCard(drawnCard);
         }
+
+        return drawnCard;
+
     }
 }
 
